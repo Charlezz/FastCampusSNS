@@ -30,7 +30,7 @@ import kr.co.fastcampus.sns.ui.theme.FastcampusSNSTheme
  */
 class UserInfoActivity : ComponentActivity() {
 
-    private val localDataSource = UserLocalDataSource(this)
+    private val userLocalDataSource by lazy{ (application as App).appContainer.createUserLocalDataSource()}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,14 +46,14 @@ class UserInfoActivity : ComponentActivity() {
                             var token by remember { mutableStateOf("") }
                             LaunchedEffect(Unit){
                                 launch {
-                                    token = localDataSource.getToken().orEmpty()
+                                    token = userLocalDataSource.getToken().orEmpty()
                                 }
                             }
                             Text(text = "$token")
                             Spacer(modifier = Modifier.height(20.dp))
                             TextButton(onClick = {
                                 lifecycleScope.launch {
-                                    localDataSource.clear()
+                                    userLocalDataSource.clear()
                                     startActivity(Intent(this@UserInfoActivity, LoginActivity::class.java))
                                     finish()
                                 }
