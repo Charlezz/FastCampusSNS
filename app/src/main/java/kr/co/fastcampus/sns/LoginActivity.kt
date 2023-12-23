@@ -10,20 +10,17 @@ import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.co.fastcampus.sns.ui.theme.FastcampusSNSTheme
 
+@AndroidEntryPoint
 class LoginActivity : ComponentActivity() {
 
-    private val container by lazy { (this.application as App).appContainer }
-
-    private val viewModel: LoginViewModel by viewModels {
-        container.loginContainer!!.createLoginViewModelFactory()
-    }
+    private val viewModel: LoginViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        container.loginContainer = LoginContainer(container)
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.uiState.collect {
@@ -59,10 +56,4 @@ class LoginActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onDestroy() {
-        container.loginContainer = null
-        super.onDestroy()
-    }
-
 }

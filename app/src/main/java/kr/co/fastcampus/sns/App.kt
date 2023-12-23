@@ -1,10 +1,10 @@
 package kr.co.fastcampus.sns
 
 import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
 
 /**
  * @author soohwan.ok
  */
-class App : Application() {
-    val appContainer:AppContainer = AppContainer(context = this)
-}
+@HiltAndroidApp
+class App : Application()

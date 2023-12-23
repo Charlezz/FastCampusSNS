@@ -21,16 +21,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.co.fastcampus.sns.ui.theme.FastcampusSNSTheme
+import javax.inject.Inject
 
 
 /**
  * @author soohwan.ok
  */
+@AndroidEntryPoint
 class UserInfoActivity : ComponentActivity() {
 
-    private val userLocalDataSource by lazy{ (application as App).appContainer.createUserLocalDataSource()}
+    @Inject
+    lateinit var userLocalDataSource:UserLocalDataSource
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
