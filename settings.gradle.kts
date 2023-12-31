@@ -15,4 +15,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "FastcampusSNS"
 include(":app")
-include(":practice")
+//include(":practice")
+include(":domain")
+include(":presentation")
+include(":data")
