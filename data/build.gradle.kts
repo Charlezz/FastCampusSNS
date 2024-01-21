@@ -2,11 +2,14 @@
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
+    alias(libs.plugins.hilt)
+    id("kotlin-kapt")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "kr.co.fastcampus.data"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
@@ -43,4 +46,9 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation(project(":domain"))
+
+    // hilt
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+
 }

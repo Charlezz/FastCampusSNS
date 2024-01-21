@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import kr.co.fastcampus.sns.ui.theme.FastcampusSNSTheme
+import kr.co.fastcampus.presentation.theme.FastcampusSNSTheme
 
 /**
  * @author soohwan.ok

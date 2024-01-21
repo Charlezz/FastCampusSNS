@@ -3,7 +3,7 @@
 plugins {
     alias(libs.plugins.com.android.application) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
-    id("com.google.dagger.hilt.android") version "2.48.1" apply false
+    alias(libs.plugins.hilt) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.com.android.library) apply false
 }
