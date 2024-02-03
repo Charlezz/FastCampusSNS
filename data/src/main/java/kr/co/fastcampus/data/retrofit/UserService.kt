@@ -16,4 +16,11 @@ interface UserService {
     suspend fun login(
         @Body requestBody: RequestBody
     ):CommonResponse<String>
+
+    @POST("users/sign-up")
+    @Headers("Content-Type:application/json; charset=UTF8")
+    suspend fun signUp(
+        @Body requestBody: RequestBody
+    ):CommonResponse<Long>
+
 }
