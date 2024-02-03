@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import kr.co.fastcampus.data.retrofit.FCInterceptor
 import kr.co.fastcampus.data.retrofit.UserService
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -21,9 +22,10 @@ val FC_HOST = "http://192.168.0.2:8080"
 class RetrofitModule {
 
     @Provides
-    fun provideOkHttpClient():OkHttpClient{
+    fun provideOkHttpClient(interceptor: FCInterceptor):OkHttpClient{
         return OkHttpClient
             .Builder()
+            .addInterceptor(interceptor)
             .build()
     }
 

@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import kr.co.fastcampus.presentation.component.FCButton
-import kr.co.fastcampus.presentation.theme.FastcampusSNSTheme
+import kr.co.fastcampus.presentation.theme.ConnectedTheme
 
 /**
  * @author soohwan.ok
@@ -57,7 +57,7 @@ fun WelcomeScreen(
 @Preview
 @Composable
 private fun WelcomeScreenPreview() {
-    FastcampusSNSTheme {
+    ConnectedTheme {
         WelcomeScreen( onNavigateToLoginScreen = {})
     }
 }

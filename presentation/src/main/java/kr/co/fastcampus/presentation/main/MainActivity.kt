@@ -1,4 +1,4 @@
-package kr.co.fastcampus.presentation.login
+package kr.co.fastcampus.presentation.main
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -10,12 +10,13 @@ import kr.co.fastcampus.presentation.theme.ConnectedTheme
  * @author soohwan.ok
  */
 @AndroidEntryPoint
-class LoginActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             ConnectedTheme {
-                LoginNavHost()
+                MainNavHost()
             }
         }
     }

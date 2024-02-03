@@ -9,11 +9,13 @@ import kr.co.fastcampus.data.usecase.GetTokenUseCaseImpl
 import kr.co.fastcampus.data.usecase.LoginUseCaseImpl
 import kr.co.fastcampus.data.usecase.SetTokenUseCaseImpl
 import kr.co.fastcampus.data.usecase.SignUpUseCaseImpl
+import kr.co.fastcampus.data.usecase.main.setting.GetMyUserUseCaseImpl
 import kr.co.fastcampus.domain.usecase.login.ClearTokenUseCase
 import kr.co.fastcampus.domain.usecase.login.GetTokenUseCase
 import kr.co.fastcampus.domain.usecase.login.LoginUseCase
 import kr.co.fastcampus.domain.usecase.login.SetTokenUseCase
 import kr.co.fastcampus.domain.usecase.login.SignUpUseCase
+import kr.co.fastcampus.domain.usecase.main.setting.GetMyUserUseCase
 
 /**
  * @author soohwan.ok
@@ -36,4 +38,7 @@ abstract class UserModule {
 
     @Binds
     abstract fun bindClearTokenUseCase(uc: ClearTokenUseCaseImpl):ClearTokenUseCase
+
+    @Binds
+    abstract fun bindGetMyUserUseCase(uc: GetMyUserUseCaseImpl):GetMyUserUseCase
 }

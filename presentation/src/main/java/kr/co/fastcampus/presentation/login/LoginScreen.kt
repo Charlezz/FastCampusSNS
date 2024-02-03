@@ -21,10 +21,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import kr.co.fastcampus.presentation.MainActivity
+import kr.co.fastcampus.presentation.main.MainActivity
 import kr.co.fastcampus.presentation.component.FCButton
 import kr.co.fastcampus.presentation.component.FCTextField
-import kr.co.fastcampus.presentation.theme.FastcampusSNSTheme
+import kr.co.fastcampus.presentation.theme.ConnectedTheme
 import org.orbitmvi.orbit.compose.collectAsState
 import org.orbitmvi.orbit.compose.collectSideEffect
 
@@ -158,7 +158,7 @@ private fun LoginScreen(
 @Preview
 @Composable
 private fun LoginScreenPreview() {
-    FastcampusSNSTheme {
+    ConnectedTheme {
         LoginScreen(
             id = "deseruisse",
             password = "mi",

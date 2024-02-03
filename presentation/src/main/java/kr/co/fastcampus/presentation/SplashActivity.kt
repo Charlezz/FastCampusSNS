@@ -8,6 +8,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kr.co.fastcampus.domain.usecase.login.GetTokenUseCase
 import kr.co.fastcampus.presentation.login.LoginActivity
+import kr.co.fastcampus.presentation.main.MainActivity
 import javax.inject.Inject
 
 /**

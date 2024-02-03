@@ -1,4 +1,4 @@
-package kr.co.fastcampus.presentation
+package kr.co.fastcampus.presentation.main.writing
 
 import androidx.appcompat.app.AppCompatActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -7,5 +7,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * @author soohwan.ok
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity() {
+class WritingActivity : AppCompatActivity() {
+
+
 }
