@@ -10,12 +10,16 @@ import kr.co.fastcampus.data.usecase.LoginUseCaseImpl
 import kr.co.fastcampus.data.usecase.SetTokenUseCaseImpl
 import kr.co.fastcampus.data.usecase.SignUpUseCaseImpl
 import kr.co.fastcampus.data.usecase.main.setting.GetMyUserUseCaseImpl
+import kr.co.fastcampus.data.usecase.main.setting.SetMyUserUseCaseImpl
+import kr.co.fastcampus.data.usecase.main.setting.SetProfileImageUseCaseImpl
 import kr.co.fastcampus.domain.usecase.login.ClearTokenUseCase
 import kr.co.fastcampus.domain.usecase.login.GetTokenUseCase
 import kr.co.fastcampus.domain.usecase.login.LoginUseCase
 import kr.co.fastcampus.domain.usecase.login.SetTokenUseCase
 import kr.co.fastcampus.domain.usecase.login.SignUpUseCase
 import kr.co.fastcampus.domain.usecase.main.setting.GetMyUserUseCase
+import kr.co.fastcampus.domain.usecase.main.setting.SetMyUserUseCase
+import kr.co.fastcampus.domain.usecase.main.setting.SetProfileImageUseCase
 
 /**
  * @author soohwan.ok
@@ -41,4 +45,10 @@ abstract class UserModule {
 
     @Binds
     abstract fun bindGetMyUserUseCase(uc: GetMyUserUseCaseImpl):GetMyUserUseCase
+
+    @Binds
+    abstract fun bindUpdateMyNameUseCase(uc: SetMyUserUseCaseImpl):SetMyUserUseCase
+
+    @Binds
+    abstract fun bindSetProfileImageUseCase(uc: SetProfileImageUseCaseImpl):SetProfileImageUseCase
 }

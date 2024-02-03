@@ -1,5 +1,6 @@
 package kr.co.fastcampus.presentation.main.setting
 
+import android.net.Uri
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -7,6 +8,8 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kr.co.fastcampus.domain.model.User
 import kr.co.fastcampus.domain.usecase.login.ClearTokenUseCase
 import kr.co.fastcampus.domain.usecase.main.setting.GetMyUserUseCase
+import kr.co.fastcampus.domain.usecase.main.setting.SetMyUserUseCase
+import kr.co.fastcampus.domain.usecase.main.setting.SetProfileImageUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
 import org.orbitmvi.orbit.syntax.simple.intent
@@ -22,6 +25,8 @@ import javax.inject.Inject
 class SettingViewModel @Inject constructor(
     private val clearTokenUseCase: ClearTokenUseCase,
     private val getMyUserUseCase: GetMyUserUseCase,
+    private val setMyUserUseCase: SetMyUserUseCase,
+    private val setProfileImageUseCase: SetProfileImageUseCase
 ) : ViewModel(), ContainerHost<SettingState, SettingSideEffect> {
     override val container: Container<SettingState, SettingSideEffect> =
         container(
@@ -38,12 +43,11 @@ class SettingViewModel @Inject constructor(
     }
 
     private fun load() = intent {
-        val user:User = getMyUserUseCase().getOrThrow()
+        val user: User = getMyUserUseCase().getOrThrow()
         reduce {
             state.copy(
                 profileImageUrl = user.profileImageUrl,
                 username = user.username
-
             )
         }
     }
@@ -51,6 +55,18 @@ class SettingViewModel @Inject constructor(
     fun onLogoutClick() = intent {
         clearTokenUseCase().getOrThrow()
         postSideEffect(SettingSideEffect.NavigateToLoginActivity)
+    }
+
+    fun onUsernameChange(username: String) = intent {
+        setMyUserUseCase(username = username,).getOrThrow()
+        load()
+    }
+
+    fun onImageChange(contentUri: Uri?) = intent {
+        setProfileImageUseCase(
+            contentUri = contentUri.toString()
+        ).getOrThrow()
+        load()
     }
 }
 
