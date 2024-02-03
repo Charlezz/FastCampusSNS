@@ -1,6 +1,12 @@
 package kr.co.fastcampus.presentation.main
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
+import android.Manifest.permission.READ_MEDIA_IMAGES
+import android.Manifest.permission.READ_MEDIA_VIDEO
 import android.content.Intent
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,13 +47,24 @@ fun MainBottomBar(
         ?.let { currentRoute -> MainRoute.values().find { route -> route.route == currentRoute } }
         ?: MainRoute.BOARD
 
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions(),
+    ) {
+        context.startActivity(
+            Intent(context, WritingActivity::class.java)
+        )
+    }
+
+
     MainBottomBar(
         currentRoute = currentRoute,
         onItemClick = { newRoute ->
             if (newRoute == MainRoute.WRITING) {
-                context.startActivity(
-                    Intent(context, WritingActivity::class.java)
-                )
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionLauncher.launch(arrayOf(READ_MEDIA_IMAGES, READ_MEDIA_VIDEO))
+                } else {
+                    permissionLauncher.launch(arrayOf(READ_EXTERNAL_STORAGE))
+                }
             } else {
                 navController.navigate(route = newRoute.route) {
                     navController.graph.startDestinationRoute?.let {
