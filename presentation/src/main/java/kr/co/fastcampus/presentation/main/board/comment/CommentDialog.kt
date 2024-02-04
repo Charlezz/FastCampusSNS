@@ -38,12 +38,13 @@ import kr.co.fastcampus.presentation.theme.ConnectedTheme
  */
 @Composable
 fun CommentDialog(
+    isMine :Boolean,
     visible: Boolean,
     comments: List<Comment>,
     onDismissRequest: () -> Unit,
     onCloseClick: () -> Unit = {},
-    onSendClick: () -> Unit = {},
-    onDeleteComment: (Comment) -> Unit
+    onDeleteComment: (Comment) -> Unit,
+    onCommentSend:(String)->Unit,
 ) {
     if (visible) {
         Dialog(
@@ -80,6 +81,7 @@ fun CommentDialog(
                                 val comment = comments[index]
                                 CommentCard(
                                     modifier = Modifier,
+                                    isMine = isMine,
                                     profileImageUrl = comment.profileImageUrl,
                                     username = comment.username,
                                     text = comment.text,
@@ -96,7 +98,10 @@ fun CommentDialog(
                                 value = text,
                                 onValueChange = { text = it }
                             )
-                            IconButton(onClick = onSendClick) {
+                            IconButton(onClick = {
+                                onCommentSend(text)
+                                text = ""
+                            }) {
                                 Icon(
                                     imageVector = Icons.Filled.Send,
                                     contentDescription = "전송"
@@ -115,10 +120,14 @@ fun CommentDialog(
 private fun CommentDialogPreview() {
     ConnectedTheme {
         CommentDialog(
+            isMine = true,
             visible = true,
             comments = emptyList(),
             onDismissRequest = {},
-            onDeleteComment = {}
+            onCommentSend = {},
+            onCloseClick = {},
+            onDeleteComment = {},
+
         )
     }
 }

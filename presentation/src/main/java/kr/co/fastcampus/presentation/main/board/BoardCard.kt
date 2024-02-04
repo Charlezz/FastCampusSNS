@@ -30,13 +30,16 @@ import kr.co.fastcampus.presentation.theme.ConnectedTheme
  */
 @Composable
 fun BoardCard(
+    isMine:Boolean,
+    boardId: Long,
     profileImageUrl: String? = null,
     username: String,
     images: List<String>,
     text: String,
-    comments:List<Comment>,
+    comments: List<Comment>,
     onOptionClick: () -> Unit,
-    onDeleteComment:(Comment)->Unit,
+    onDeleteComment: (Long, Comment) -> Unit,
+    onCommentSend: (Long, String) -> Unit
 ) {
     var commentDialogVisible by remember { mutableStateOf(false) }
     Surface {
@@ -48,11 +51,11 @@ fun BoardCard(
                 .background(
                     color = MaterialTheme.colorScheme.primaryContainer,
                     shape = RoundedCornerShape(16.dp)
-                )
-            ,
+                ),
         ) {
             // 헤더
             BoardHeader(
+                isMine = isMine,
                 modifier = Modifier.fillMaxWidth(),
                 profileImageUrl = profileImageUrl,
                 username = username,
@@ -102,18 +105,19 @@ fun BoardCard(
                     .align(Alignment.End),
                 onClick = { commentDialogVisible = true }
             ) {
-                Text(text = "댓글")
+                Text(text = "${comments.size} 댓글")
             }
         }
     }
 
     CommentDialog(
+        isMine = isMine,
         visible = commentDialogVisible,
         comments = comments,
         onDismissRequest = { commentDialogVisible = false },
-        onDeleteComment = onDeleteComment,
-        onCloseClick = { commentDialogVisible = false
-        }
+        onDeleteComment = { comment -> onDeleteComment(boardId, comment) },
+        onCloseClick = { commentDialogVisible = false },
+        onCommentSend = { text -> onCommentSend(boardId, text) }
     )
 }
 
@@ -122,13 +126,19 @@ fun BoardCard(
 private fun BoardCardPreview() {
     ConnectedTheme {
         BoardCard(
+            isMine = true,
+            boardId = -1L,
             profileImageUrl = null,
             username = "Fast Campus",
             images = emptyList(),
             text = "내용1\n내용2\n내용3\n",
             onOptionClick = {},
             comments = emptyList(),
-            onDeleteComment = {}
+            onDeleteComment = { boardId, comment ->
+
+            }, onCommentSend = { boardId, text ->
+
+            }
         )
     }
 }

@@ -39,10 +39,15 @@ fun BoardScreen(
     }
 
     BoardScreen(
+        myUserId = state.myUserId,
         boardCardModels = state.boardCardModelFlow.collectAsLazyPagingItems(),
         deletedBoardIds = state.deletedBoardIds,
+        addedComments = state.addedComments,
+        deletedComments = state.deletedComments,
         onOptionClick = { modelForDialog = it },
-        onDeleteComment = viewModel::onDeleteComment
+        onDeleteComment = viewModel::onDeleteComment,
+        onCommentSend = viewModel::onCommentSend,
+
     )
     BoardOptionDialog(
         model = modelForDialog,
@@ -54,10 +59,14 @@ fun BoardScreen(
 
 @Composable
 private fun BoardScreen(
+    myUserId:Long,
     boardCardModels: LazyPagingItems<BoardCardModel>,
     deletedBoardIds:Set<Long> = emptySet(),
+    addedComments:Map<Long, List<Comment>>,
+    deletedComments:Map<Long, List<Comment>>,
     onOptionClick: (BoardCardModel) -> Unit,
-    onDeleteComment:(Comment)->Unit,
+    onDeleteComment:(Long, Comment)->Unit,
+    onCommentSend:(Long, String)->Unit
 ) {
     Surface {
         LazyColumn(
@@ -68,14 +77,18 @@ private fun BoardScreen(
                 key = { index -> boardCardModels[index]?.boardId ?: index },
             ) { index ->
                 boardCardModels[index]?.run {
+                    val model = this
                     if(!deletedBoardIds.contains(this.boardId)){
                         BoardCard(
-                            username = this.username,
-                            images = this.images,
-                            text = this.text,
-                            comments = this.comments,
-                            onOptionClick = { onOptionClick(this) },
-                            onDeleteComment = onDeleteComment
+                            isMine = model.userId == myUserId,
+                            boardId = model.boardId,
+                            username = model.username,
+                            images = model.images,
+                            text = model.text,
+                            comments = model.comments + addedComments[boardId].orEmpty() - deletedComments[boardId].orEmpty(),
+                            onOptionClick = { onOptionClick(model) },
+                            onDeleteComment = onDeleteComment,
+                            onCommentSend = onCommentSend
                         )
                     }
                 }

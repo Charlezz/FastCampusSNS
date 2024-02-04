@@ -10,7 +10,10 @@ import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
 import kr.co.fastcampus.domain.model.Comment
 import kr.co.fastcampus.domain.usecase.main.board.DeleteBoardUseCase
+import kr.co.fastcampus.domain.usecase.main.board.DeleteCommentUseCase
 import kr.co.fastcampus.domain.usecase.main.board.GetBoardsUseCase
+import kr.co.fastcampus.domain.usecase.main.board.PostCommentUseCase
+import kr.co.fastcampus.domain.usecase.main.setting.GetMyUserUseCase
 import kr.co.fastcampus.presentation.model.main.board.BoardCardModel
 import kr.co.fastcampus.presentation.model.main.board.toUiModel
 import org.orbitmvi.orbit.Container
@@ -26,8 +29,11 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class BoardViewModel @Inject constructor(
+    private val getMyUserUseCase: GetMyUserUseCase,
     private val getBoardsUseCase: GetBoardsUseCase,
     private val deleteBoardUseCase: DeleteBoardUseCase,
+    private val postCommentUseCase: PostCommentUseCase,
+    private val deleteCommentUseCase: DeleteCommentUseCase,
 ) : ViewModel(), ContainerHost<BoardState, BoardSideEffect> {
     override val container: Container<BoardState, BoardSideEffect> = container(
         initialState = BoardState(),
@@ -45,6 +51,7 @@ class BoardViewModel @Inject constructor(
     }
 
     fun load() = intent {
+        val myUser = getMyUserUseCase().getOrThrow()
         val boardFlow = getBoardsUseCase().getOrThrow()
         val boardCardModelFlow = boardFlow
             .map { pagingData ->
@@ -55,6 +62,7 @@ class BoardViewModel @Inject constructor(
             }
         reduce {
             state.copy(
+                myUserId = myUser.id,
                 boardCardModelFlow = boardCardModelFlow
             )
         }
@@ -69,14 +77,53 @@ class BoardViewModel @Inject constructor(
         }
     }
 
-    fun onDeleteComment(comment: Comment) = intent {
+    fun onCommentSend(boardId: Long, text: String) = intent {
+        val user = getMyUserUseCase().getOrThrow()
+        val commentId = postCommentUseCase(boardId, text).getOrThrow()
+        reduce {
+            val comment = Comment(
+                id = commentId,
+                text = text,
+                username = user.username,
+                profileImageUrl = user.profileImageUrl
+            )
+            val newAddedComments = state.addedComments + Pair(
+                boardId,
+                state.addedComments[boardId].orEmpty() + comment
+            )
+            state.copy(
+                addedComments = newAddedComments
+            )
+        }
+    }
 
+    fun onDeleteComment(
+        boardId: Long,
+        comment: Comment
+    ) = intent {
+        val deletedCommentId = deleteCommentUseCase(
+            boardId = boardId,
+            commentId = comment.id
+        ).getOrThrow()
+
+        val newDeletedComments = state.deletedComments + Pair(
+            boardId,
+            state.deletedComments[boardId].orEmpty() + comment
+        )
+        reduce {
+            state.copy(
+                deletedComments = newDeletedComments
+            )
+        }
     }
 }
 
 data class BoardState(
+    val myUserId:Long = -1L,
     val boardCardModelFlow: Flow<PagingData<BoardCardModel>> = emptyFlow(),
-    val deletedBoardIds: Set<Long> = emptySet()
+    val deletedBoardIds: Set<Long> = emptySet(),
+    val addedComments: Map<Long, List<Comment>> = emptyMap(),
+    val deletedComments: Map<Long, List<Comment>> = emptyMap()
 )
 
 sealed interface BoardSideEffect {

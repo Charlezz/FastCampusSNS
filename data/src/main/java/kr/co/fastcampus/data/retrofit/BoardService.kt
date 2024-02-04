@@ -32,4 +32,16 @@ interface BoardService {
     suspend fun deleteBoard(
         @Path("id") id:Long
     ):CommonResponse<Long>
+
+    @POST("boards/{id}/comments")
+    suspend fun postComment(
+        @Path("id") boardId:Long,
+        @Body requestBody: RequestBody
+    ):CommonResponse<Long>
+
+    @DELETE("boards/{boardId}/comments/{commentId}")
+    suspend fun deleteComment(
+        @Path("boardId") boardId:Long,
+        @Path("commentId") commentId:Long,
+    ):CommonResponse<Long>
 }

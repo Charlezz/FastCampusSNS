@@ -27,6 +27,7 @@ import kr.co.fastcampus.presentation.theme.ConnectedTheme
 @Composable
 fun CommentCard(
     modifier: Modifier = Modifier,
+    isMine :Boolean,
     profileImageUrl: String? = null,
     username: String = "",
     text: String = "",
@@ -51,12 +52,14 @@ fun CommentCard(
                 Text(text = text)
             }
             Spacer(modifier = Modifier.weight(1f))
-            IconButton(onClick = onDeleteComment) {
-                Icon(
-                    modifier = Modifier.size(16.dp),
-                    imageVector = Icons.Filled.Clear,
-                    contentDescription = "삭제"
-                )
+            if(isMine){
+                IconButton(onClick = onDeleteComment) {
+                    Icon(
+                        modifier = Modifier.size(16.dp),
+                        imageVector = Icons.Filled.Clear,
+                        contentDescription = "삭제"
+                    )
+                }
             }
         }
     }
@@ -68,6 +71,7 @@ fun CommentCard(
 private fun CommentCardPreview() {
     ConnectedTheme {
         CommentCard(
+            isMine = true,
             profileImageUrl = null,
             username = "Charles",
             text = "안녕하세요 !",

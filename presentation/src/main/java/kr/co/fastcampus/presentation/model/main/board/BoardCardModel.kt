@@ -9,6 +9,7 @@ import kr.co.fastcampus.domain.model.Comment
  */
 @Immutable
 data class BoardCardModel(
+    val userId:Long,
     val boardId: Long,
     val username: String,
     val images: List<String>,
@@ -18,6 +19,7 @@ data class BoardCardModel(
 
 fun Board.toUiModel(): BoardCardModel {
     return BoardCardModel(
+        userId = this.userId,
         boardId = this.id,
         username = this.username,
         images = this.images,
