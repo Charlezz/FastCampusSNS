@@ -16,7 +16,7 @@ import retrofit2.Retrofit
 /**
  * @author soohwan.ok
  */
-val FC_HOST = "http://192.168.0.2:8080"
+val FC_HOST = "http://192.168.0.5:8080"
 
 @Module
 @InstallIn(SingletonComponent::class)
