@@ -77,13 +77,14 @@ private fun BoardScreen(
                 key = { index -> boardCardModels[index]?.boardId ?: index },
             ) { index ->
                 boardCardModels[index]?.run {
-                    val model = this
+                    val model:BoardCardModel = this
                     if(!deletedBoardIds.contains(this.boardId)){
                         BoardCard(
                             isMine = model.userId == myUserId,
                             boardId = model.boardId,
                             username = model.username,
                             images = model.images,
+                            profileImageUrl = model.profileImageUrl,
                             richTextState = model.richTextState,
                             comments = model.comments + addedComments[boardId].orEmpty() - deletedComments[boardId].orEmpty(),
                             onOptionClick = { onOptionClick(model) },

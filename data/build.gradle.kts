@@ -70,4 +70,9 @@ dependencies {
     // paging3
     implementation(libs.paging.runtime)
 
+    // room
+    implementation(libs.room.runtime)
+    implementation(libs.room.paging)
+    kapt(libs.room.compiler)
+
 }

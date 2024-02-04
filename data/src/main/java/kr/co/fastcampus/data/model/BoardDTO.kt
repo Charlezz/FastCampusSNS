@@ -1,5 +1,7 @@
 package kr.co.fastcampus.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -10,9 +12,10 @@ import kr.co.fastcampus.domain.model.Board
 /**
  * @author soohwan.ok
  */
+@Entity
 @Serializable
 data class BoardDTO(
-    val id:Long,
+    @PrimaryKey val id:Long,
     val title:String,
     val content:String,
     val createdAt:String,
