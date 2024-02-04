@@ -2,6 +2,7 @@ package kr.co.fastcampus.presentation.main.writing
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import com.mohamedrejeb.richeditor.model.RichTextState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kr.co.fastcampus.domain.model.Image
@@ -9,7 +10,6 @@ import kr.co.fastcampus.domain.usecase.main.writing.GetImageListUseCase
 import kr.co.fastcampus.domain.usecase.main.writing.PostBoardUseCase
 import org.orbitmvi.orbit.Container
 import org.orbitmvi.orbit.ContainerHost
-import org.orbitmvi.orbit.syntax.simple.blockingIntent
 import org.orbitmvi.orbit.syntax.simple.intent
 import org.orbitmvi.orbit.syntax.simple.postSideEffect
 import org.orbitmvi.orbit.syntax.simple.reduce
@@ -62,16 +62,10 @@ class WritingViewModel @Inject constructor(
         }
     }
 
-    fun onTextChange(text: String) = blockingIntent {
-        reduce {
-            state.copy(text = text)
-        }
-    }
-
     fun onPostClick() = intent {
         postBoardUseCase(
             title = "제목없음",
-            content = state.text,
+            content = state.richTextState.toHtml(),
             images = state.selectedImages
         )
         postSideEffect(WritingSideEffect.Finish)
@@ -80,9 +74,9 @@ class WritingViewModel @Inject constructor(
 
 @Immutable
 data class WritingState(
+    val richTextState:RichTextState = RichTextState(),
     val selectedImages: List<Image> = emptyList(),
     val images: List<Image> = emptyList(),
-    val text: String = "",
 )
 
 sealed interface WritingSideEffect {

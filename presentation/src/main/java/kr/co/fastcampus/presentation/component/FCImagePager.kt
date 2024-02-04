@@ -30,11 +30,10 @@ fun FCImagePager(
     modifier: Modifier = Modifier,
     images: List<String>,
 ) {
-    val pagerState = rememberPagerState()
+    val pagerState = rememberPagerState(pageCount ={images.size})
     Box(modifier = modifier) {
         HorizontalPager(
             state = pagerState,
-            pageCount = images.size
         ) { index ->
             val image = images[index]
             Image(

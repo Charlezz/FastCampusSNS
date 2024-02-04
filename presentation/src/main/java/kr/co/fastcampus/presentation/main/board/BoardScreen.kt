@@ -84,7 +84,7 @@ private fun BoardScreen(
                             boardId = model.boardId,
                             username = model.username,
                             images = model.images,
-                            text = model.text,
+                            richTextState = model.richTextState,
                             comments = model.comments + addedComments[boardId].orEmpty() - deletedComments[boardId].orEmpty(),
                             onOptionClick = { onOptionClick(model) },
                             onDeleteComment = onDeleteComment,

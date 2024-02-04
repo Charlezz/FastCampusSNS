@@ -17,9 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.tooling.preview.Preview
+import com.mohamedrejeb.richeditor.model.RichTextState
+import com.mohamedrejeb.richeditor.ui.BasicRichTextEditor
 import kr.co.fastcampus.presentation.component.FCImagePager
-import kr.co.fastcampus.presentation.component.FCTextField
+import kr.co.fastcampus.presentation.main.writing.toolbar.WritingToolbar
 import kr.co.fastcampus.presentation.theme.ConnectedTheme
 import org.orbitmvi.orbit.compose.collectAsState
 
@@ -33,9 +37,8 @@ fun WritingScreen(
 ) {
     val state = viewModel.collectAsState().value
     WritingScreen(
+        richTextState = state.richTextState,
         images = state.selectedImages.map { it.uri },
-        text = state.text,
-        onTextChange = viewModel::onTextChange,
         onBackClick = onBackClick,
         onPostClick = viewModel::onPostClick
     )
@@ -44,9 +47,8 @@ fun WritingScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WritingScreen(
+    richTextState:RichTextState,
     images: List<String>,
-    text: String,
-    onTextChange: (String) -> Unit,
     onBackClick: () -> Unit,
     onPostClick: () -> Unit
 ) {
@@ -84,14 +86,27 @@ private fun WritingScreen(
                         images = images
                     )
                     Divider()
-                    FCTextField(
+                    BasicRichTextEditor(
                         modifier = Modifier
                             .fillMaxWidth()
                             .weight(3f),
-                        value = text,
-                        onValueChange = onTextChange
+                        state = richTextState,
+                        cursorBrush = SolidColor(Color.White),
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(color = Color.White),
+                        decorationBox = { innerTextField ->
+                            if(richTextState.annotatedString.isEmpty()){
+                                Text(text = "문구를 입력해 주세요")
+                            }
+                            innerTextField()
+                        }
                     )
                 }
+            },
+            bottomBar = {
+                WritingToolbar(
+                    modifier = Modifier.fillMaxWidth(),
+                    richTextState = richTextState
+                )
             }
         )
 
@@ -103,11 +118,11 @@ private fun WritingScreen(
 private fun WritingScreenPreview() {
     ConnectedTheme {
         WritingScreen(
-            text = "",
-            onTextChange = {},
             images = emptyList(),
             onBackClick = {},
-            onPostClick = {}
+            onPostClick = {},
+            richTextState = RichTextState(),
+
         )
     }
 }

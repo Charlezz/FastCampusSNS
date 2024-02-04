@@ -1,6 +1,7 @@
 package kr.co.fastcampus.presentation.model.main.board
 
 import androidx.compose.runtime.Immutable
+import com.mohamedrejeb.richeditor.model.RichTextState
 import kr.co.fastcampus.domain.model.Board
 import kr.co.fastcampus.domain.model.Comment
 
@@ -13,7 +14,7 @@ data class BoardCardModel(
     val boardId: Long,
     val username: String,
     val images: List<String>,
-    val text: String,
+    val richTextState: RichTextState,
     val comments:List<Comment>
 )
 
@@ -23,7 +24,7 @@ fun Board.toUiModel(): BoardCardModel {
         boardId = this.id,
         username = this.username,
         images = this.images,
-        text = this.content,
+        richTextState = RichTextState().apply { setHtml(this@toUiModel.content) },
         comments = this.comments
     )
 }
