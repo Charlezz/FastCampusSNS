@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
+import kr.co.fastcampus.domain.model.Comment
 import kr.co.fastcampus.domain.usecase.main.board.DeleteBoardUseCase
 import kr.co.fastcampus.domain.usecase.main.board.GetBoardsUseCase
 import kr.co.fastcampus.presentation.model.main.board.BoardCardModel
@@ -66,6 +67,10 @@ class BoardViewModel @Inject constructor(
                 deletedBoardIds = state.deletedBoardIds + model.boardId
             )
         }
+    }
+
+    fun onDeleteComment(comment: Comment) = intent {
+
     }
 }
 

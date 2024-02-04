@@ -3,6 +3,8 @@ package kr.co.fastcampus.data.model
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kr.co.fastcampus.data.model.comment.CommentDTO
+import kr.co.fastcampus.data.model.comment.toDomainModel
 import kr.co.fastcampus.domain.model.Board
 
 /**
@@ -18,6 +20,7 @@ data class BoardDTO(
     val createUserId:Long,
     val createUserName:String,
     val createUserProfileFilePath:String,
+    val commentList:List<CommentDTO>
 )
 
 fun BoardDTO.toDomainModel(): Board{
@@ -28,6 +31,7 @@ fun BoardDTO.toDomainModel(): Board{
         content = contentParam.text,
         images = contentParam.images,
         username = this.createUserName,
-        profileImageUrl = this.createUserProfileFilePath
+        profileImageUrl = this.createUserProfileFilePath,
+        comments = this.commentList.map { it.toDomainModel() }
     )
 }
