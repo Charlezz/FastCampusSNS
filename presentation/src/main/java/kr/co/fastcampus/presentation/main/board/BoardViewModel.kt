@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.map
+import kr.co.fastcampus.domain.usecase.main.board.DeleteBoardUseCase
 import kr.co.fastcampus.domain.usecase.main.board.GetBoardsUseCase
 import kr.co.fastcampus.presentation.model.main.board.BoardCardModel
 import kr.co.fastcampus.presentation.model.main.board.toUiModel
@@ -24,7 +25,8 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class BoardViewModel @Inject constructor(
-    private val getBoardsUseCase: GetBoardsUseCase
+    private val getBoardsUseCase: GetBoardsUseCase,
+    private val deleteBoardUseCase: DeleteBoardUseCase,
 ) : ViewModel(), ContainerHost<BoardState, BoardSideEffect> {
     override val container: Container<BoardState, BoardSideEffect> = container(
         initialState = BoardState(),
@@ -37,9 +39,11 @@ class BoardViewModel @Inject constructor(
 
     init {
         load()
+
+
     }
 
-    private fun load() = intent {
+    fun load() = intent {
         val boardFlow = getBoardsUseCase().getOrThrow()
         val boardCardModelFlow = boardFlow
             .map { pagingData ->
@@ -54,10 +58,20 @@ class BoardViewModel @Inject constructor(
             )
         }
     }
+
+    fun onBoardDelete(model: BoardCardModel) = intent {
+        deleteBoardUseCase(model.boardId).getOrThrow()
+        reduce {
+            state.copy(
+                deletedBoardIds = state.deletedBoardIds + model.boardId
+            )
+        }
+    }
 }
 
 data class BoardState(
-    val boardCardModelFlow: Flow<PagingData<BoardCardModel>> = emptyFlow()
+    val boardCardModelFlow: Flow<PagingData<BoardCardModel>> = emptyFlow(),
+    val deletedBoardIds: Set<Long> = emptySet()
 )
 
 sealed interface BoardSideEffect {

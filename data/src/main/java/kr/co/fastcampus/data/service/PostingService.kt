@@ -15,6 +15,7 @@ import kr.co.fastcampus.data.model.BoardParam
 import kr.co.fastcampus.data.model.BoardParcel
 import kr.co.fastcampus.data.model.ContentParam
 import kr.co.fastcampus.data.retrofit.BoardService
+import kr.co.fastcampus.domain.model.ACTION_POSTED
 import kr.co.fastcampus.domain.usecase.file.UploadImageUseCase
 import javax.inject.Inject
 
@@ -97,6 +98,13 @@ class PostingService : LifecycleService() {
         val boardParam = BoardParam(boardParcel.title, contentParam.toJson())
         val requestBody = boardParam.toRequestBody()
         boardService.postBoard(requestBody)
+        sendBroadcast(
+            Intent(
+                ACTION_POSTED
+            ).apply {
+                setPackage(packageName)
+            }
+        )
         stopForeground(STOP_FOREGROUND_DETACH)
     }
 }

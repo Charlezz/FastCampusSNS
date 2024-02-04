@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.co.fastcampus.presentation.R
 import kr.co.fastcampus.presentation.main.board.BoardScreen
+import kr.co.fastcampus.presentation.main.board.BoardViewModel
 import kr.co.fastcampus.presentation.main.setting.SettingScreen
 
 /**
@@ -23,7 +24,7 @@ import kr.co.fastcampus.presentation.main.setting.SettingScreen
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavHost() {
+fun MainNavHost(boardViewModel: BoardViewModel) {
     val navController = rememberNavController()
     Surface {
         Scaffold(
@@ -42,7 +43,7 @@ fun MainNavHost() {
                     startDestination = MainRoute.BOARD.route
                 ) {
                     composable(route = MainRoute.BOARD.route) {
-                        BoardScreen()
+                        BoardScreen(boardViewModel)
                     }
                     composable(route = MainRoute.SETTING.route) {
                         SettingScreen()

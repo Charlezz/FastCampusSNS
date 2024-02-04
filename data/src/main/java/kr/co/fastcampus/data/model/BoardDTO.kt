@@ -1,6 +1,8 @@
 package kr.co.fastcampus.data.model
 
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
 import kr.co.fastcampus.domain.model.Board
 
 /**
@@ -19,11 +21,12 @@ data class BoardDTO(
 )
 
 fun BoardDTO.toDomainModel(): Board{
+    val contentParam = Json.decodeFromString<ContentParam>(content)
     return Board(
         id = this.id,
         title = this.title,
-        content = this.content,
-        images = emptyList(),
+        content = contentParam.text,
+        images = contentParam.images,
         username = this.createUserName,
         profileImageUrl = this.createUserProfileFilePath
     )
