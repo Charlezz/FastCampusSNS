@@ -7,15 +7,31 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import kr.co.fastcampus.presentation.model.main.board.BoardCardModel
 import kr.co.fastcampus.presentation.theme.ConnectedTheme
+import org.orbitmvi.orbit.compose.collectAsState
 
 /**
  * @author soohwan.ok
  */
 @Composable
 fun BoardScreen(
-    boardCardModels: List<BoardCardModel>,
+    viewModel: BoardViewModel = hiltViewModel()
+) {
+    val state = viewModel.collectAsState().value
+    BoardScreen(
+        boardCardModels = state.boardCardModelFlow.collectAsLazyPagingItems(),
+        onOptionClick = {},
+        onReplyClick = {}
+    )
+}
+
+@Composable
+private fun BoardScreen(
+    boardCardModels: LazyPagingItems<BoardCardModel>,
     onOptionClick: (BoardCardModel) -> Unit,
     onReplyClick: (BoardCardModel) -> Unit,
 ) {
@@ -24,17 +40,19 @@ fun BoardScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             items(
-                count = boardCardModels.size,
-                key = { index -> boardCardModels[index].boardId },
+                count = boardCardModels.itemCount,
+                key = { index -> boardCardModels[index]?.boardId ?: index },
             ) { index ->
-                val boardCardModel = boardCardModels[index]
-                BoardCard(
-                    username = boardCardModel.username,
-                    images = boardCardModel.images,
-                    text = boardCardModel.text,
-                    onOptionClick = { onOptionClick(boardCardModel) },
-                    onReplyClick = { onReplyClick(boardCardModel) }
-                )
+                boardCardModels[index]?.run {
+                    BoardCard(
+                        username = this.username,
+                        images = this.images,
+                        text = this.text,
+                        onOptionClick = { onOptionClick(this) },
+                        onReplyClick = { onReplyClick(this) }
+                    )
+                }
+
             }
         }
     }
@@ -45,29 +63,10 @@ fun BoardScreen(
 @Composable
 private fun BoardScreenPreview() {
     ConnectedTheme {
-        BoardScreen(
-            boardCardModels = listOf(
-                BoardCardModel(
-                    boardId = 1,
-                    username = "Charles",
-                    images = listOf(),
-                    text = "내용1"
-                ),
-                BoardCardModel(
-                    boardId = 2,
-                    username = "Fast Campus",
-                    images = listOf(),
-                    text = "내용2"
-                ),
-                BoardCardModel(
-                    boardId = 3,
-                    username = "Hung Bennett",
-                    images = listOf(),
-                    text = "내용3"
-                )
-            ),
-            onOptionClick = {},
-            onReplyClick = {}
-        )
+//        BoardScreen(
+//            boardCardModels = empty,
+//            onOptionClick = {},
+//            onReplyClick = {}
+//        )
     }
 }
