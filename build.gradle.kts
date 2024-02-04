@@ -6,5 +6,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.com.android.library) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
 }
 true // Needed to make the Suppress annotation work for

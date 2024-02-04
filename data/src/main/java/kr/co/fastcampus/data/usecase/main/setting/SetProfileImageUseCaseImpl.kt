@@ -1,6 +1,5 @@
 package kr.co.fastcampus.data.usecase.main.setting
 
-import kr.co.fastcampus.data.di.FC_HOST
 import kr.co.fastcampus.domain.model.Image
 import kr.co.fastcampus.domain.usecase.file.GetImageUseCase
 import kr.co.fastcampus.domain.usecase.file.UploadImageUseCase
@@ -27,6 +26,6 @@ class SetProfileImageUseCaseImpl @Inject constructor(
         // 2. 이미지 서버에 업로드 하기
         val imagePath = uploadImageUseCase(image).getOrThrow()
         // 3. 내 정보 업데이트 하기
-        setMyUserUseCase(profileImageUrl = FC_HOST + imagePath).getOrThrow()
+        setMyUserUseCase(profileImageUrl = imagePath).getOrThrow()
     }
 }

@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityRetainedComponent
 import kr.co.fastcampus.data.usecase.main.writing.GetImageListUseCaseImpl
+import kr.co.fastcampus.data.usecase.main.writing.PostBoardUseCaseImpl
 import kr.co.fastcampus.domain.usecase.main.writing.GetImageListUseCase
+import kr.co.fastcampus.domain.usecase.main.writing.PostBoardUseCase
 
 /**
  * @author soohwan.ok
@@ -16,4 +18,7 @@ abstract class WritingModule {
 
     @Binds
     abstract fun bindGetImageListUseCase(uc: GetImageListUseCaseImpl): GetImageListUseCase
+
+    @Binds
+    abstract fun bindPostBoardUseCase(uc: PostBoardUseCaseImpl): PostBoardUseCase
 }

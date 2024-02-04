@@ -1,5 +1,6 @@
 package kr.co.fastcampus.data.usecase.file
 
+import kr.co.fastcampus.data.di.FC_HOST
 import kr.co.fastcampus.data.retrofit.FileService
 import kr.co.fastcampus.data.retrofit.UriRequestBody
 import kr.co.fastcampus.domain.model.Image
@@ -32,7 +33,7 @@ class UploadImageUseCaseImpl @Inject constructor(
             image.name,
             requestBody
         )
-        fileService.uploadFile(
+        FC_HOST+fileService.uploadFile(
             fileName = fileNamePart,
             file = filePart,
         ).data.filePath

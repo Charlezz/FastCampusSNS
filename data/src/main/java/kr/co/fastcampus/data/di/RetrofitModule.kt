@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import kr.co.fastcampus.data.retrofit.BoardService
 import kr.co.fastcampus.data.retrofit.FCInterceptor
 import kr.co.fastcampus.data.retrofit.FileService
 import kr.co.fastcampus.data.retrofit.UserService
@@ -50,6 +51,11 @@ class RetrofitModule {
     @Provides
     fun provideFileService(retrofit:Retrofit): FileService {
         return retrofit.create(FileService::class.java)
+    }
+
+    @Provides
+    fun provideBoardService(retrofit:Retrofit): BoardService {
+        return retrofit.create(BoardService::class.java)
     }
 
 }

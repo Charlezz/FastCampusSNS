@@ -1,15 +1,16 @@
 package kr.co.fastcampus.domain.model
 
-import kotlinx.serialization.Serializable
+import java.io.Serializable
+
 
 /**
  * @author soohwan.ok
  */
 
-@Serializable
+@kotlinx.serialization.Serializable
 data class Image(
     val uri:String,
     val name:String,
     val size:Long,
     val mimeType:String,
-)
+):Serializable
