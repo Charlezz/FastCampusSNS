@@ -18,7 +18,7 @@ class SetProfileImageUseCaseImpl @Inject constructor(
     private val getMyUserUseCase: GetMyUserUseCase,
     ) : SetProfileImageUseCase {
     override suspend fun invoke(contentUri: String): Result<Unit> = kotlin.runCatching {
-        // 0. 내 정보 가져오
+        // 0. 내 정보 가져오기
         val user = getMyUserUseCase().getOrThrow()
         // 1. 이미지 정보 가져오기
         val image: Image =

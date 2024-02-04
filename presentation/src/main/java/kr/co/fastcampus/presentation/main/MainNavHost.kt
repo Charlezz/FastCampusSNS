@@ -15,7 +15,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kr.co.fastcampus.presentation.R
-import kr.co.fastcampus.presentation.main.board.BoardScreen
 import kr.co.fastcampus.presentation.main.setting.SettingScreen
 
 /**
@@ -42,7 +41,7 @@ fun MainNavHost() {
                     startDestination = MainRoute.BOARD.route
                 ) {
                     composable(route = MainRoute.BOARD.route) {
-                        BoardScreen()
+//                        BoardScreen()
                     }
                     composable(route = MainRoute.SETTING.route) {
                         SettingScreen()
