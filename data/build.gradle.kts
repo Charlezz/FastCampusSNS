@@ -45,7 +45,7 @@ dependencies {
     implementation(libs.material)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+//    androidTestImplementation(libs.espresso.core)
 
     implementation(project(":domain"))
 
@@ -74,5 +74,9 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.paging)
     kapt(libs.room.compiler)
+
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+//    androidTestImplementation("androidx.test:rules:1.5.0")
 
 }
