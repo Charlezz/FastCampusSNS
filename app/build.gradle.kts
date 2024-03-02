@@ -93,4 +93,10 @@ dependencies {
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
     kaptAndroidTest("com.google.dagger:hilt-compiler:2.48.1")
 
+    // for Local unit tests
+    testImplementation("com.google.dagger:hilt-android-testing:2.48.1")
+    kaptTest("com.google.dagger:hilt-compiler:2.48.1")
+
+    testImplementation("org.robolectric:robolectric:4.11.1")
+
 }
