@@ -77,5 +77,6 @@ hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt"}
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android"}
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "org-jetbrains-kotlin-android"}
 com-android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "agp" }
+fastcampus-hilt = { id = "fastcampus.hilt.plugin", version = "1" }
 [bundles]
 

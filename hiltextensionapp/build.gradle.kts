@@ -2,8 +2,8 @@
 plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.hilt)
     id("kotlin-kapt")
+    alias(libs.plugins.fastcampus.hilt)
 }
 
 android {
@@ -53,8 +53,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
 
     implementation(project(":annotations"))
     kapt(project(":compiler"))

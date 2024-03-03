@@ -3,8 +3,7 @@ plugins {
     alias(libs.plugins.com.android.application)
     alias(libs.plugins.org.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    id("kotlin-kapt")
-    alias(libs.plugins.hilt)
+    alias(libs.plugins.fastcampus.hilt)
 }
 
 android {
@@ -86,9 +85,6 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp)
-
-    implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
 
     // for instrumentation tests
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.48.1")
